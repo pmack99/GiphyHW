@@ -69,26 +69,30 @@
              
              var showDiv = $("<div class='show'>");
  
-             var rating = results[i].rating;
-             var defaultAnimatedSrc = results[i].images.fixed_height.url;
-             var staticSrc = results[i].images.fixed_height_still.url;
-             var showImage = $("<img>");
-             var p = $("<p>").text("Rating: " + rating);
+             //var rating = results[i].rating;
+             //var defaultAnimatedSrc = results[i].images.fixed_height.url;
+             //var staticSrc = results[i].images.fixed_height_still.url;
+             //var showImage = $("<img>");
+             //var p = $("<p>").text("Rating: " + rating);
 
-             showImage.addClass("newGiphy");
-             showImage.attr("src", staticSrc);
-             showImage.attr("data-state", "still");
-             showImage.attr("data-still", staticSrc);
-             showImage.attr("data-animate", defaultAnimatedSrc);
-             showDiv.append(p);
-             showDiv.append(showImage);
+             //showImage.addClass("newGiphy");
+             //showImage.attr("src", staticSrc);
+             //showImage.attr("data-state", "still");
+             //showImage.attr("data-still", staticSrc);
+             //showImage.attr("data-animate", defaultAnimatedSrc);
+             //showDiv.append(p);
+             //showDiv.append(showImage);
 
-            var imgURL = results.bitly_gif_url;
+            var rating = results[i].rating;
+            var gifUrl = results[i].images.fixed_height.url;
+            var p = $("<p>").text("Rating: " + rating);
 
-            var image = $("<img>").attr("src", imgURL);
-            gifsview.append(image);
+            var image = $("<img>").attr("src", gifUrl);
 
-             $("#gifsView").prepend(showDiv);
+            showDiv.append(p);
+            showDiv.append(image);
+
+            $("#gifsView").prepend(showDiv);
  
          }
      });
