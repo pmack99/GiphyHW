@@ -8,6 +8,7 @@ $(document).ready(function() {
         console.log(giphy);
 
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + giphy + "&api_key=dc6zaTOxFJmzC&limit=10";
+        
         console.log(queryURL);
 
         $.ajax({
@@ -25,11 +26,20 @@ $(document).ready(function() {
               var gifUrl = results[i].images.fixed_height.url;
                  console.log(gifUrl)
 
+              var animatedSrc = results[i].images.fixed_height.url;
+              var stillSrc = results[i].images.fixed_height_still.url;
+
               var p = $("<p>").text("Rating: " + rating);
               showDiv.append(p);
 
               var image = $("<img>").attr("src", gifUrl);
               showDiv.append(image);
+
+              image.addClass("newGiphy");
+              image.attr("src", stillSrc);
+              image.attr("data-state", "still");
+              image.attr("data-still", stillSrc);
+              image.attr("data-animate", animatedSrc);
 
           $("#gifsView").prepend(showDiv);
 
@@ -66,31 +76,25 @@ $(document).ready(function() {
       $(document).on("click", ".gif-button", ajaxGifCall);
 
       //Click event on gifs with class of "newGiphy" executes pausePlayGifs function
-      // $(document).on("click", ".newGiphy", pausePlayGifs);
+       $(document).on("click", ".newGiphy", pausePlayGifs);
 
 
       //Function accesses "data-state" attribute and depending on status, changes image source to "data-animate" or "data-still"
-     // function pausePlayGifs() {
-          // var state = $(this).attr("data-state");
-     // if (state === "still") {
-        //      $(this).attr("src", $(this).attr("data-animate"));
-        //      $(this).attr("data-state", "animate");
-     //} else {
-     //  $(this).attr("src", $(this).attr("data-still"));
-     //  $(this).attr("data-state", "still");
- //}
-//}
+        function pausePlayGifs() {
+             var state = $(this).attr("data-state");
+      if (state === "still") {
+             $(this).attr("src", $(this).attr("data-animate"));
+             $(this).attr("data-state", "animate");
+     } else {
+             $(this).attr("src", $(this).attr("data-still"));
+             $(this).attr("data-state", "still");
+    }
+}
 
 });
 
 
 
 
-            //var defaultAnimatedSrc = results[i].images.fixed_height.url;
-           //var staticSrc = results[i].images.fixed_height_still.url;
-           //image.addClass("newGiphy");
-           //image.attr("src", staticSrc);
-           //image.attr("data-state", "still");
-           //image.attr("data-still", staticSrc);
-           //image.attr("data-animate", defaultAnimatedSrc);
+
 
