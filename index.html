@@ -63,6 +63,8 @@
          }).then(function(response) {
              var results = response.data;
              
+             console.log(results)
+
              for (var i = 0; i < results.length; i++) {
              
              var showDiv = $("<div class='show'>");
@@ -72,14 +74,20 @@
              var staticSrc = results[i].images.fixed_height_still.url;
              var showImage = $("<img>");
              var p = $("<p>").text("Rating: " + rating);
- 
-             showImage.attr("src", staticSrc);
+
              showImage.addClass("newGiphy");
+             showImage.attr("src", staticSrc);
              showImage.attr("data-state", "still");
              showImage.attr("data-still", staticSrc);
              showImage.attr("data-animate", defaultAnimatedSrc);
              showDiv.append(p);
              showDiv.append(showImage);
+
+            var imgURL = results.bitly_gif_url;
+
+            var image = $("<img>").attr("src", imgURL);
+            gifsview.append(image);
+
              $("#gifsView").prepend(showDiv);
  
          }
