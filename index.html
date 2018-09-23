@@ -9,31 +9,137 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>Giphy HW</title>
+    <style type="text/css">
+        button,
+        div,
+        form,
+        input {
+          margin: 10px;
+        }
+      </style>
   </head>
   <body>
     
     <div class = container>
-            <h1>Giphy Search</h1>
+            <h1 style="color:red; text-align: center">Giphy Search</h1>
+            <br>
+            <hr>
         <div id="buttons-view"></div>
 
         <form id="giphy-form">
                 <label for="giphy-input">Enter a term and search for a GIF!</label>
                 <input type="text" id="giphy-input">
+
                 <input id="add-giphy" type="submit" value="Add a GIPHY">
-            </form>
+        </form>
+        <br>
+        <hr>
 
-
-
-
+        <div id="gifsview"></div>
 
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
+ $(document).ready(function() {
+        
+        var topics = ["baseball", "football"];
+ 
+        
+        function ajaxGifCall() {
+ 
+        var giphy = $(this).data("data-name");
+        console.log(giphy);
+ 
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + giphy + "&api_key=dc6zaTOxFJmzC&limit=10";
+ 
+         console.log(queryURL);
+ 
+         $.ajax({
+              url: queryURL,
+              method: "GET"
+         }).then(function(response) {
+             var results = response.data;
+             console.log(results);
+             for (var i = 0; i < results.length; i++) {
+             
+             var showDiv = $("<div class = show");
+ 
+             var rating = results[i].rating;
+             var defaultAnimatedSrc = results[i].images.fixed_height.url;
+             var staticSrc = results[i].images.fixed_height_still.url;
+             var showImage = $("<img>");
+             var p = $("<p>").text("Rating: " + rating);
+ 
+             showImage.attr("src", staticSrc);
+             showImage.addClass("newGiphy");
+             showImage.attr("data-state", "still");
+             showImage.attr("data-still", staticSrc);
+             showImage.attr("data-animate", defaultAnimatedSrc);
+             showDiv.append(p);
+             showDiv.append(showImage);
+             $("#gifsView").prepend(showDiv);
+ 
+         }
+     });
+ }
+ 
+   //Submit button click event takes search term from form input, trims and pushes to topics array, displays button
+     $("#add-giphy").on("click", function(event) {
+         event.preventDefault();
+         var newbutton = $("#giphy-input").val().trim();
+         topics.push(newbutton);
+         console.log(topics);
+         $("giphy-input").val('');
+         displayButtons();
+       });
+ 
+   //Function iterates through topics array to display button with array values in "myButtons" section of HTML
+     function displayButtons() {
+        $("#buttons-view").empty();
+     for (var i = 0; i < topics.length; i++) {
+        var a = $('<button class="btn btn-primary">');
+         a.attr("rating");
+         a.attr("data-name", topics[i]);
+         a.text(topics[i]);
+         $("#buttons-view").append(a);
+     }
+   }
+ 
+ 
+   displayButtons();
+ 
+        //Click event on button with id of "show" executes ajaxGifCall function
+        $(document).on("click", "#show", ajaxGifCall);
+ 
+        //Click event on gifs with class of "newGiphy" executes pausePlayGifs function
+         $(document).on("click", ".newGiphy", pausePlayGifs);
+ 
+        //Function accesses "data-state" attribute and depending on status, changes image source to "data-animate" or "data-still"
+        function pausePlayGifs() {
+             var state = $(this).attr("data-state");
+        if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+       } else {
+         $(this).attr("src", $(this).attr("data-still"));
+         $(this).attr("data-state", "still");
+   }
+ }
+ 
+ });
+ 
+
+
+
+
+
+
+
+
+
+
+    </script>
 </html>
