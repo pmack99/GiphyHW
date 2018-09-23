@@ -1,0 +1,39 @@
+button, div,form,input {
+  margin: 10px;
+}
+
+.jumbotron{
+    background-color: lightgray;
+    border: 2px solid black;
+    border-radius: 20px;
+
+}
+
+.container-fluid{
+    text-align: center;
+    margin:0px auto; 
+    display:block;
+}
+
+div{
+    text-align: center;
+}
+
+h1{
+    font-family: 'Quicksand', sans-serif;
+    font-size:100px;
+}
+
+p{
+    font-family: 'Pacifico', cursive;
+    font-size: 40px;
+}
+
+h2{
+    font-family: 'Cabin', sans-serif;
+}
+
+
+
+
+
