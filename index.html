@@ -8,13 +8,13 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Giphy HW</title>
+    <title>Giphy API</title>
     <style type="text/css">
         button,
         div,
         form,
         input {
-          margin: 10px;
+          margin: 15px;
         }
       </style>
   </head>
@@ -29,14 +29,11 @@
         <form id="giphy-form">
                 <label for="giphy-input">Enter a term and search for a GIF!</label>
                 <input type="text" id="giphy-input">
-
                 <input id="add-giphy" type="submit" value="Add a GIPHY">
         </form>
         <br>
         <hr>
-
         <div id="gifsview"></div>
-
     </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -48,13 +45,10 @@
       var topics = ["baseball", "football", "hockey", "soccer"];
  
       function ajaxGifCall() {
-
           var giphy = $(this).attr("data-name");
-          
           console.log(giphy);
  
           var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + giphy + "&api_key=dc6zaTOxFJmzC&limit=10";
- 
           console.log(queryURL);
  
           $.ajax({
@@ -62,35 +56,21 @@
               method: "GET"
          }).then(function(response) {
              var results = response.data;
-             
              console.log(results)
 
              for (var i = 0; i < results.length; i++) {
+                var showDiv = $("<div class='show'>");
              
-             var showDiv = $("<div class='show'>");
- 
-             //var rating = results[i].rating;
-             //var defaultAnimatedSrc = results[i].images.fixed_height.url;
-             //var staticSrc = results[i].images.fixed_height_still.url;
-             //var showImage = $("<img>");
-             //var p = $("<p>").text("Rating: " + rating);
+                var rating = results[i].rating;
+                   console.log(rating)
+                var gifUrl = results[i].images.fixed_height.url;
+                   console.log(gifUrl)
 
-             //showImage.addClass("newGiphy");
-             //showImage.attr("src", staticSrc);
-             //showImage.attr("data-state", "still");
-             //showImage.attr("data-still", staticSrc);
-             //showImage.attr("data-animate", defaultAnimatedSrc);
-             //showDiv.append(p);
-             //showDiv.append(showImage);
-
-            var rating = results[i].rating;
-            var gifUrl = results[i].images.fixed_height.url;
-            var p = $("<p>").text("Rating: " + rating);
-
-            var image = $("<img>").attr("src", gifUrl);
-
-            showDiv.append(p);
-            showDiv.append(image);
+                var p = $("<p>").text("Rating: " + rating);
+                showDiv.append(p);
+                
+                var image = $("<img>").attr("src", gifUrl);
+                showDiv.append(image);
 
             $("#gifsView").prepend(showDiv);
  
@@ -127,22 +107,33 @@
         $(document).on("click", ".gif-button", ajaxGifCall);
  
         //Click event on gifs with class of "newGiphy" executes pausePlayGifs function
-         $(document).on("click", ".newGiphy", pausePlayGifs);
+        // $(document).on("click", ".newGiphy", pausePlayGifs);
  
 
         //Function accesses "data-state" attribute and depending on status, changes image source to "data-animate" or "data-still"
-        function pausePlayGifs() {
-             var state = $(this).attr("data-state");
-        if (state === "still") {
-                $(this).attr("src", $(this).attr("data-animate"));
-                $(this).attr("data-state", "animate");
-       } else {
-         $(this).attr("src", $(this).attr("data-still"));
-         $(this).attr("data-state", "still");
-   }
- }
+       // function pausePlayGifs() {
+            // var state = $(this).attr("data-state");
+       // if (state === "still") {
+          //      $(this).attr("src", $(this).attr("data-animate"));
+          //      $(this).attr("data-state", "animate");
+       //} else {
+       //  $(this).attr("src", $(this).attr("data-still"));
+       //  $(this).attr("data-state", "still");
+   //}
+ //}
  
  });
+
+
+
+
+              //var defaultAnimatedSrc = results[i].images.fixed_height.url;
+             //var staticSrc = results[i].images.fixed_height_still.url;
+             //image.addClass("newGiphy");
+             //image.attr("src", staticSrc);
+             //image.attr("data-state", "still");
+             //image.attr("data-still", staticSrc);
+             //image.attr("data-animate", defaultAnimatedSrc);
  
 
 
