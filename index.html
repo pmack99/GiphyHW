@@ -39,33 +39,33 @@
 
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
 
 
  $(document).ready(function() {
         
-        var topics = ["baseball", "football"];
+      var topics = ["baseball", "football", "hockey", "soccer"];
  
-        
-        function ajaxGifCall() {
+      function ajaxGifCall() {
+
+          var giphy = $(this).attr("data-name");
+          
+          console.log(giphy);
  
-        var giphy = $(this).data("data-name");
-        console.log(giphy);
+          var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + giphy + "&api_key=dc6zaTOxFJmzC&limit=10";
  
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + giphy + "&api_key=dc6zaTOxFJmzC&limit=10";
+          console.log(queryURL);
  
-         console.log(queryURL);
- 
-         $.ajax({
+          $.ajax({
               url: queryURL,
               method: "GET"
          }).then(function(response) {
              var results = response.data;
-             console.log(results);
+             
              for (var i = 0; i < results.length; i++) {
              
-             var showDiv = $("<div class = show");
+             var showDiv = $("<div class='show'>");
  
              var rating = results[i].rating;
              var defaultAnimatedSrc = results[i].images.fixed_height.url;
@@ -96,12 +96,12 @@
          displayButtons();
        });
  
-   //Function iterates through topics array to display button with array values in "myButtons" section of HTML
+   //Function iterates through topics array to display button with array values in "buttons-view" section of HTML
      function displayButtons() {
         $("#buttons-view").empty();
      for (var i = 0; i < topics.length; i++) {
-        var a = $('<button class="btn btn-primary">');
-         a.attr("rating");
+         var a = $("<button>");
+         a.addClass("gif-button");
          a.attr("data-name", topics[i]);
          a.text(topics[i]);
          $("#buttons-view").append(a);
@@ -112,11 +112,12 @@
    displayButtons();
  
         //Click event on button with id of "show" executes ajaxGifCall function
-        $(document).on("click", "#show", ajaxGifCall);
+        $(document).on("click", ".gif-button", ajaxGifCall);
  
         //Click event on gifs with class of "newGiphy" executes pausePlayGifs function
          $(document).on("click", ".newGiphy", pausePlayGifs);
  
+
         //Function accesses "data-state" attribute and depending on status, changes image source to "data-animate" or "data-still"
         function pausePlayGifs() {
              var state = $(this).attr("data-state");
